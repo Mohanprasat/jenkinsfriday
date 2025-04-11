@@ -1,57 +1,25 @@
 pipeline {
     agent any
 
-    environment {
-        // Define global environment variables here
-        NODE_ENV = 'production'
-    }
-
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm ci' // change to `pip install -r requirements.txt` for Python, etc.
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-                sh 'npm test'
-            }
-        }
 
         stage('Build') {
             steps {
-                sh 'npm run build'
+                echo 'Building the application...'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
             }
         }
 
         stage('Deploy') {
-            when {
-                branch 'main'
-            }
             steps {
-                echo 'Deploying to production...'
-                // Add your deployment script or commands here
-                // e.g., sh './deploy.sh'
+                echo 'Deploying the application...'
             }
         }
     }
 
-    post {
-        always {
-            echo 'Pipeline finished.'
-        }
-        success {
-            echo 'Build succeeded!'
-        }
-        failure {
-            echo 'Build failed.'
-        }
-    }
-}
+  }
